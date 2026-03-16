@@ -1,0 +1,109 @@
+﻿
+━━━ 2.2 ROUTE EXISTENCE TESTS ━━━
+  ✅ GET /health returns 200
+  ✅ /health has status: ok
+  ✅ GET /listings returns 200 (not 404)
+  ✅ POST /auth/register returns 400 (not 404)
+  ✅ Unknown route returns 404
+
+━━━ 2.3 AUTH API TESTS ━━━
+
+[1] Register Referrer
+  ✅ Status 201
+  ✅ success: true
+  ✅ Has accessToken
+  ✅ Has user object
+  ✅ Role is referrer
+
+[2] Register Applicant
+  ✅ Status 201
+  ✅ Role is applicant
+
+[3] Duplicate Email (should fail 400)
+  ✅ Status 400
+  ✅ success: false
+
+[4] Login Referrer
+  ✅ Status 200
+  ✅ Has accessToken
+
+[5] Wrong Password (should fail 401)
+  ✅ Status 401 (not 500)
+
+[6] Get Current User (protected)
+  ✅ Status 200
+  ✅ User object present
+  ✅ No password in response
+
+[7] No Auth Token (should fail 401)
+  ✅ Status 401 (not 500)
+
+[8] Refresh Token
+  ✅ Returns 200 or 401 (not 500)
+
+━━━ 2.4 LISTINGS API TESTS ━━━
+
+[1] Create Listing (referrer)
+  ✅ Status 201
+  ✅ Listing has _id
+
+[2] Browse Listings (public)
+  ✅ Status 200
+  ✅ data.listings array
+
+[3] Filter by company=Google
+  ✅ Status 200
+  ✅ Results contain Google
+
+[4] Get Listing By ID
+node :   ❌ Status 200 — got 
+500
+At line:1 char:1
++ node scripts/testApi.js 
+2>&1 | Out-File -Encoding 
+utf8 scripts/test_r ...
++ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified:     (  ❌ 
+Status 200 — go    t 
+500:String) [], Re    
+moteException
+    + FullyQualifiedErro    
+rId : NativeCommandE    rror
+ 
+
+[5] Applicant tries to create listing (should fail 403)
+  ❌ Listing company is Google
+  ✅ Status 403
+
+[6] Update Listing
+  ✅ Status 200
+
+[7] My Listings
+  ❌ Status 200 — got 404
+  ❌ Has listings array
+
+━━━ 2.5 REFERRAL REQUEST TESTS ━━━
+
+[1] Applicant creates referral request
+  ❌ Status 201 — got 400: 
+"Cover note is required"
+
+[2] Duplicate application (should fail)
+  ❌ Status is pending
+  ✅ Status 400
+
+[3] Applicant gets their requests
+  ✅ Status 200
+  ✅ Has requests array
+
+[4] Referrer gets incoming requests
+  ✅ Status 200
+
+[7] Applicant notifications
+  ✅ Status 200 (not 500)
+
+═════════════════════════════════════════════
+📊 RESULTS: 35 passed, 6 failed
+❌ 6 test(s) need attention
